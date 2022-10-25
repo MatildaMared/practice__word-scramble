@@ -16,6 +16,18 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    var score: Int {
+        get {
+            var score = 0
+            
+            for word in usedWords {
+                score += word.count
+            }
+            
+            return score
+        }
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -31,6 +43,11 @@ struct ContentView: View {
                             Text(word)
                         }
                     }
+                }
+                
+                Section {
+                    Text("Score: \(score)")
+                        .font(.title2)
                 }
             }
             .navigationTitle(rootWord)
@@ -85,6 +102,8 @@ struct ContentView: View {
     }
     
     func startGame() {
+        usedWords = [String]()
+        
         if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
             if let startWords = try? String(contentsOf: startWordsURL) {
                 let allWords = startWords.components(separatedBy: "\n")
