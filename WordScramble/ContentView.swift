@@ -46,7 +46,17 @@ struct ContentView: View {
     
     func addNewWord() {
         let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        guard answer.count > 0 else { return }
+        
+        guard answer != rootWord else {
+            wordError(title: "Same word", message: "You can't use the same word as the root word, try again 😊")
+            return
+        }
+        
+        
+        guard answer.count >= 3 else {
+            wordError(title: "Too short", message: "Please enter a word with three or more letters 😄")
+            return
+        }
         
         guard isOriginal(word: answer) else {
             wordError(title: "Word used already", message: "Be more original! 😙")
